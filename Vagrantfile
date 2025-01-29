@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define :master, primary: true do |master_config|
     master_config.vm.provider "virtualbox" do |vb|
-        vb.memory = "2048"
+        vb.memory = "1024"
         vb.cpus = 1
         vb.name = "master"
     end
@@ -32,7 +32,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.minion_pub = "saltstack/keys/master_minion.pub"
       salt.seed_master = {
                           "minion1" => "saltstack/keys/minion1.pub",
-                          "minion2" => "saltstack/keys/minion2.pub"
+                          "minion2" => "saltstack/keys/minion2.pub",
+                          "minion3" => "saltstack/keys/minion3.pub"
                          }
 
       salt.install_type = "stable"
@@ -48,25 +49,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 
   [
-    ["minion1",    "#{net_ip}.11",    "1024",    os ],
-    ["minion2",    "#{net_ip}.12",    "1024",    os ],
-  ].each do |vmname,ip,mem,os|
-    config.vm.define "#{vmname}" do |minion_config|
+    ["minion1", "project1",   "#{net_ip}.11",    "512",    os ],
+    ["minion2", "project1",   "#{net_ip}.12",    "512",    os ],
+    ["minion3", "project2",   "#{net_ip}.13",    "512",    os ],
+  ].each do |minion,project,ip,mem,os|
+    config.vm.define "#{minion}-#{project}" do |minion_config|
       minion_config.vm.provider "virtualbox" do |vb|
           vb.memory = "#{mem}"
           vb.cpus = 1
-          vb.name = "#{vmname}"
+          vb.name = "#{minion}-#{project}"
       end
 
       minion_config.vm.box = "#{os}"
       minion_config.vm.box_version = "#{os_version}"
-      minion_config.vm.hostname = "#{vmname}"
+      minion_config.vm.hostname = "#{minion}-#{project}"
       minion_config.vm.network "private_network", ip: "#{ip}"
 
       minion_config.vm.provision :salt do |salt|
-        salt.minion_config = "saltstack/etc/#{vmname}"
-        salt.minion_key = "saltstack/keys/#{vmname}.pem"
-        salt.minion_pub = "saltstack/keys/#{vmname}.pub"
+        salt.minion_config = "saltstack/etc/#{minion}"
+        salt.minion_key = "saltstack/keys/#{minion}.pem"
+        salt.minion_pub = "saltstack/keys/#{minion}.pub"
         salt.install_type = "stable"
         salt.install_args = "3006.9"
         salt.verbose = true

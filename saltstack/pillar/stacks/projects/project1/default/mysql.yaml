@@ -1,0 +1,4 @@
+states:
+    - state: mysql
+      properties:
+          version: 8.0

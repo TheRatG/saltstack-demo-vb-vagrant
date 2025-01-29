@@ -7,8 +7,7 @@ Inspired by:
 * https://github.com/vmware-archive/salty-vagrant.git
 
 
-Instructions
-============
+## Instructions
 
 Run the following commands in a terminal. Git, VirtualBox and Vagrant must
 already be installed.
@@ -29,7 +28,11 @@ using Salt.
 
 ```bash
 vagrant ssh master
-sudo salt-key -a minion1
-sudo salt-key -a minion2
+sudo salt-key -a minion1-project1
+sudo salt-key -a minion2-project2
 sudo salt \* test.ping
 ```
+
+## Glossary
+
+https://docs.saltproject.io/en/latest/glossary.html

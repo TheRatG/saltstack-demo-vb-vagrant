@@ -1,0 +1,5 @@
+project2: project2_default
+states:
+    - state: project2_state
+      properties:
+          propertyA: default_property2
