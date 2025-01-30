@@ -15,6 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         vb.memory = "1024"
         vb.cpus = 1
         vb.name = "master"
+        vb.customize ["modifyvm", :id, "--uartmode1", "disconnected"]
     end
 
     master_config.vm.box = "#{os}"
@@ -33,9 +34,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.minion_key = "saltstack/keys/master_minion.pem"
       salt.minion_pub = "saltstack/keys/master_minion.pub"
       salt.seed_master = {
-                          "minion1" => "saltstack/keys/minion1.pub",
-                          "minion2" => "saltstack/keys/minion2.pub",
-                          "minion3" => "saltstack/keys/minion3.pub"
+                          "minion1-project1" => "saltstack/keys/minion1.pub",
+                          "minion2-project1" => "saltstack/keys/minion2.pub",
+                          "minion3-project2" => "saltstack/keys/minion3.pub"
                          }
 
       salt.install_type = "stable"
@@ -60,6 +61,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           vb.memory = "#{mem}"
           vb.cpus = 1
           vb.name = "#{minion}-#{project}"
+          vb.customize ["modifyvm", :id, "--uartmode1", "disconnected"]
       end
 
       minion_config.vm.box = "#{os}"

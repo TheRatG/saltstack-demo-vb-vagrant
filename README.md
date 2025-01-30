@@ -48,6 +48,31 @@ vagrant@127.0.0.1: Permission denied (publickey).
 $Env:VAGRANT_PREFER_SYSTEM_BIN += 0
 ```
 
+#### Windows WSL2
+
+> **_NOTE:_** vagrant version inside wsl and windows must be the same
+
+> **_NOTE:_** project should be located in /mnt/ dir
+
+
+* wsl: install plugin
+ ``` bash
+ vagrant plugin install virtualbox_WSL2
+ ```
+* wsl: setup environment
+ ```bash
+ export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+ export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"
+ ```
+* SSH key permission issues, add the following to your /etc/wsl.conf:
+ ```text
+ [automount]
+ enabled = true
+ root = /mnt/
+ options = "metadata,umask=77,fmask=11"
+ mountFsTab = false
+ ```
+
 ### Minions
 
 Generate keys example:
