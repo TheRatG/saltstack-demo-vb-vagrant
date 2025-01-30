@@ -466,7 +466,8 @@
 #  - cmd_yaml: cat /etc/salt/yaml
 
 ext_pillar:
-  - stack: /etc/pillar/projects.sls
+  - stack:
+    - /srv/pillar/stacks/projects.cfg
 
 # The ext_pillar_first option allows for external pillar sources to populate
 # before file system pillar. This allows for targeting file system pillar from

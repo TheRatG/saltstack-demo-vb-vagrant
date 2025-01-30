@@ -36,3 +36,22 @@ sudo salt \* test.ping
 ## Glossary
 
 https://docs.saltproject.io/en/latest/glossary.html
+
+### Windows
+
+`vagrant ssh master` - error https://www.vagrantup.com/docs/other/environmental-variables.html#vagrant_prefer_system_bin
+```
+vagrant@127.0.0.1: Permission denied (publickey).
+```
+
+```bash
+$Env:VAGRANT_PREFER_SYSTEM_BIN += 0
+```
+
+### Minions
+
+Generate keys example:
+```
+openssl genrsa -out minion3.pem 2048
+openssl rsa -in minion3.pem -pubout -out minion3.pub
+```

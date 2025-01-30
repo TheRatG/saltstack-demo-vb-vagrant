@@ -24,6 +24,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     master_config.vm.synced_folder "saltstack/salt/", "/srv/salt"
     master_config.vm.synced_folder "saltstack/pillar/", "/srv/pillar"
 
+    master_config.ssh.insert_key = false
+
     master_config.vm.provision :salt do |salt|
       salt.master_config = "saltstack/etc/master"
       salt.master_key = "saltstack/keys/master_minion.pem"
@@ -64,6 +66,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       minion_config.vm.box_version = "#{os_version}"
       minion_config.vm.hostname = "#{minion}-#{project}"
       minion_config.vm.network "private_network", ip: "#{ip}"
+
+      minion_config.ssh.insert_key = false
 
       minion_config.vm.provision :salt do |salt|
         salt.minion_config = "saltstack/etc/#{minion}"
